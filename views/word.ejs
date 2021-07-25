@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('meta') %>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= data.word %> | Grapey Dictionary</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    <%- include('header') %>
+    <main>
+      <h1><%= data.word %></h1>
+      <h2>
+        <% for (var i = 0; i < data.phonetics.length; i++) { %>
+          <%= data.phonetics[i].text %> <button class="sound" onclick="new Audio('<%= data.phonetics[i].audio %>').play()">🔊</button> <% if (i !== data.phonetics.length - 1) { %>, <% } %>
+        <% } %>
+      </h2>
+      <hr>
+     <div style="font-family: 'Poppins', Arial, Helvetica, sans-serif;">
+       <% for (var i = 0; i < data.meanings.length; i++) { %>
+        <p><i><%= data.meanings[i].partOfSpeech %></i></p>
+        <ul>
+          <% for (var e = 0; e < data.meanings[i].definitions.length; e++) { %>
+            <li>
+              <p><%= data.meanings[i].definitions[e].definition %></p>
+              <% if (data.meanings[i].definitions[e].example) { %> <blockquote><%= data.meanings[i].definitions[e].example %></blockquote> <% } %>
+              <% if (data.meanings[i].definitions[e].synonyms) { %>
+                <p>
+                  <b>synonyms</b>
+                  <br>
+                  <% for (var a = 0; a < data.meanings[i].definitions[e].synonyms.length; a++) { %>
+                    <a href="/<%= data.meanings[i].definitions[e].synonyms[a] %>"><%= data.meanings[i].definitions[e].synonyms[a] %></a>
+                    <% if (a !== data.meanings[i].definitions[e].synonyms.length - 1) { %> · <% } %>
+                  <% } %>
+                </p>
+              <% } %>
+            </li>
+          <% } %>
+        </ul>
+      <% } %>
+      </div>
+    </main>
+  </body>
+</html>
